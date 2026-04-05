@@ -30,3 +30,13 @@ module.exports.isAdmin=(req,res,next)=>{
     }
     next()
 }
+
+module.exports.Adminonly=(req,res,next)=>{
+    const allowedRoles=["Admin"]
+    if(!allowedRoles.includes(req.user.role)){
+        return res.status(403).json({
+            message:"Access denied . Admin only"
+        })
+    }
+    next()
+}
