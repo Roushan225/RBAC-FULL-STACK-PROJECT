@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { handleSuccess } from '../../utilities'
 import { ToastContainer } from 'react-toastify'
+import axios from 'axios'
 
 function Profsidenavbar() {
 
@@ -11,15 +12,22 @@ function Profsidenavbar() {
     
 
     useEffect(() => {
-        const data = JSON.parse(localStorage.getItem("user"))
-        if (!data) {
-            navigate("/login");
-            return;
+
+        const checkUser=async ()=>{
+            try {
+                const response=await axios.get("/auth/me",{
+                    withCredentials:true
+                })
+                console.log(response.data.user);
+                setUser(response.data.user)
+                
+            } catch (error) {
+                navigate("/login")
+                console.log(error);
+                
+            }
         }
-
-        setUser(data)
-
-
+        checkUser();
     }, [])
 
     const handleLogout=()=>{

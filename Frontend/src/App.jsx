@@ -10,6 +10,7 @@ import Resetpassword from "./Components/Resetpassword";
 import UserDashboard from "./Components/UserDashboard";
 import Professorpdf from "./Components/Professorpdf"
 import Calendar from "./Components/calendar";
+import AdminLoginLogs from "./Components/AdminLoginLog";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/userdashboard" element={<UserDashboard />} />
           <Route path="/Professorpdf" element={<Professorpdf />} />
           <Route path="/calendar" element={<Calendar />} />
+          <Route path="/loginlog" element={<AdminLoginLogs />} />
         </Routes>
       </div>
 

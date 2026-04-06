@@ -1,7 +1,9 @@
+const dotenv=require("dotenv")
+dotenv.config();
 const express =require("express")
 const app=express();
 const cors=require("cors")
-const dotenv=require("dotenv")
+
 const connectdb=require("./config/db")                        //acquiring the fn connectdb from config
 const authroute=require("./routes/auth.routes")
 const adminroute=require("./routes/admin-routes")
@@ -13,9 +15,14 @@ const calendarroute = require("./routes/calendar.routes")
 const cookieparser=require("cookie-parser");
 const mailroute =require("./routes/mail.routes")
 
-dotenv.config();
+
 
 connectdb();                                                  //running the function connectdb
+
+app.use(cors({
+    origin:"localhost:5173",
+    credentials : true
+}))
 
 app.use(cookieparser())
 app.use(express.json())

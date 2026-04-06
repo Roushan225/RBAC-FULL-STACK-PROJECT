@@ -20,8 +20,7 @@ function login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    localStorage.removeItem("user")                               //clear old user before login
-    localStorage.removeItem("token")
+    
 
     try {
       const data = {
@@ -31,7 +30,8 @@ function login() {
       const response = await axios.post("/auth/login", data, {
         headers: {
           "Content-Type": "application/json"
-        }
+        },
+        withCredentials:true                                        // allows cookies
       })
      
       const result = response.data;
@@ -56,12 +56,14 @@ function login() {
           },1500)
         }
 
-        localStorage.setItem("token",response.data.token)
 
-        localStorage.setItem("user",
-          JSON.stringify(response.data.user)
-        )
-        console.log("user stored");
+
+        // localStorage.setItem("token",response.data.token)
+
+        // localStorage.setItem("user",
+        //   JSON.stringify(response.data.user)
+        // )
+        // console.log("user stored");
       }
 
     } catch (error) {

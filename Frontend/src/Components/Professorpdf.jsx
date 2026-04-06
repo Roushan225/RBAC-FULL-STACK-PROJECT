@@ -17,21 +17,31 @@ function Professorpdf() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        const data = JSON.parse(localStorage.getItem("user"))
-        if (!data) {
-            navigate("/login");
-            return;
+
+        const checkUser=async ()=>{
+            try {
+                const response=await axios.get("/auth/me",{
+                    withCredentials:true
+                })
+                console.log(response.data.user);
+                setUser(response.data.user)
+                
+            } catch (error) {
+                navigate("/login")
+            }
         }
-
-        setUser(data)
-
-
+        checkUser();
     }, [])
 
-    const handleLogout = () => {
-        localStorage.removeItem("user");
-        navigate("/login")
-        handleSuccess("User Logout Successful")
+    const handleLogout = async() => {
+        await axios.post("/auth/logout",{},{
+            withCredentials:true
+        });
+        handleSuccess("Professor Logout Succesfully")
+
+        setTimeout(() => {
+            navigate("/login")
+        }, 1000);
     }
 
 
