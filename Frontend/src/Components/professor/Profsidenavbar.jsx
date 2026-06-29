@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { handleSuccess } from '../../utilities'
+import { handleSuccess } from '../../../utilities'
 import { ToastContainer } from 'react-toastify'
 import axios from 'axios'
 

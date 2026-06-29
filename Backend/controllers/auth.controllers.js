@@ -7,7 +7,7 @@ const LoginLog = require("../models/LoginLog");
 
 module.exports.register = async (req, res) => {
     const { role, name, email, password, branch } = req.body;
-    console.log(req.body);
+    
 
     try {
         if (!name || !email || !password) {
@@ -64,8 +64,6 @@ module.exports.login = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        console.log("hello");
-        
         if (!email || !password) {
             res.status(400).json({
                 message: "All field are required"
@@ -96,12 +94,12 @@ module.exports.login = async (req, res) => {
         }
         console.log(process.env.JWT_SECRET);
         
-        const token = jwt.sign({ id:user._id },process.env.JWT_SECRET,  {                         //generates token
+        const token = jwt.sign({ id:user._id, role:user.role },process.env.JWT_SECRET,  {                         //generates token
             expiresIn: "3d",
         })
         
         
-        res.cookie('token', token, {
+        res.cookie('token', token, {                                           // generates cookies that contain token
             httpOnly: true,
             secure: false,
             maxAge: 30 * 24 * 60 * 60 * 1000,
@@ -145,9 +143,9 @@ module.exports.profile = async (req, res) => {
         })
     }
 
-    const decoded=jwt.verify(token,process.env.JWT_SECRET);
+    const decoded=jwt.verify(token,process.env.JWT_SECRET);             //decodes the token info
 
-    const user=await User.findById(decoded.id);
+    const user=await User.findById(decoded.id);                         //finding and storing user through _id
 
     res.json({user})
 }

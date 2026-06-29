@@ -4,14 +4,14 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Home from "./pages/Home";
-import ProfessorDashboard from "./Components/ProfessorDashboard"
-import AdminDashboard from "./Components/AdminDashboard";
-import Resetpassword from "./Components/Resetpassword";
-import UserDashboard from "./Components/UserDashboard";
-import Professorpdf from "./Components/Professorpdf"
-import Calendar from "./Components/calendar";
-import AdminLoginLogs from "./Components/AdminLoginLog";
-
+import ProfessorDashboard from "./Components/professor/ProfessorDashboard"
+import AdminDashboard from "./Components/admin/AdminDashboard";
+import Resetpassword from "./Components/shared/Resetpassword";
+import UserDashboard from "./Components/user/UserDashboard";
+import Professorpdf from "./Components/professor/Professorpdf"
+import Calendar from "./Components/shared/Calendar";
+import AdminLoginLogs from "./Components/admin/AdminLoginLog";
+import Course from "./Components/admin/Course"
 function App() {
   return (
     <>
@@ -28,6 +28,7 @@ function App() {
           <Route path="/Professorpdf" element={<Professorpdf />} />
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/loginlog" element={<AdminLoginLogs />} />
+          <Route path="/course" element={<Course />} />
         </Routes>
       </div>
 

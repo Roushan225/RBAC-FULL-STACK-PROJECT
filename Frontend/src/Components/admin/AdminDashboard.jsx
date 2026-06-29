@@ -1,9 +1,9 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { handleSuccess } from '../../utilities'
+import { handleSuccess } from '../../../utilities'
 import { useNavigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
-import AdminLoginLogs from './AdminLoginLog'
+import SideNav from '../shared/SideNav'
 
 function AdminDashboard() {
     const navigate = useNavigate()
@@ -37,7 +37,7 @@ function AdminDashboard() {
         const fetchusers = async () => {
 
             try {
-                const response = await axios.get("/admin/user")
+                const response = await axios.get("/admin/user", { withCredentials: true })
                 console.log(response.data);
                 setUsers(response.data)
 
@@ -53,7 +53,7 @@ function AdminDashboard() {
     const deleteUser = async (id) => {
 
         try {
-            const response = await axios.delete(`/admin/deleteuser/${id}`)
+            const response = await axios.delete(`/admin/deleteuser/${id}`, { withCredentials: true })
 
             handleSuccess(response.data.message);
 
@@ -81,27 +81,25 @@ function AdminDashboard() {
     const loginlog = () => {
         navigate("/loginlog")
     }
+    
 
 
     return (
-        <>
-            <h1 className='text-3xl absolute top-[5vh] left-[15vw] font-bold'>
-                Admin Users Data
-            </h1>
-            <button
-                className=' h-20 rounded-xl absolute text-xl right-1  w-36 bg-white shadow-lg  items-center  hover:bg-red-500 hover:text-white transition duration-[.5s] '
-                onClick={(e) => logout(e)}>
-                <i className='fa-solid fa-arrow-right-from-bracket'></i>
-                logout
-            </button>
-            <button
-                className=' h-20 rounded-xl absolute text-xl right-48  w-36 bg-white shadow-lg  items-center  hover:bg-red-500 hover:text-white transition duration-[.5s] '
-                onClick={loginlog}>
-                <i className='fa-solid fa-arrow-right-from-bracket'></i>
-                LoginLog
-            </button>
-            <div
-                className='absolute  w-[90vw] shadow-lg top-[10vh] left-[8vw] gap-4 grid grid-cols-3 flex-wrap grid-rows-3'>
+        <SideNav
+            title="Admin Panel"
+            userName="Admin"
+            onLogout={handleLogout}
+            links={[
+                { label: 'Users', path: '/admin', icon: 'fa-solid fa-users' },
+                { label: 'Login Logs', path: '/loginlog', icon: 'fa-solid fa-clock' },
+                { label: 'Course', path: '/course', icon: 'fa-solid fa-book' },
+                { label: 'Calendar', path: '/calendar', icon: 'fa-solid fa-calendar-alt' }
+            ]}
+        >
+            <div className='p-2'>
+                <h1 className='text-3xl font-bold mb-6'>Admin Users Data</h1>
+                <div className='w-full shadow-lg rounded-2xl p-4 bg-white'>
+                    <div className='grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4'>
                 {users.filter((user) => user.role != "Admin").map((user) => {
                     return (
                         <>
@@ -137,7 +135,7 @@ function AdminDashboard() {
 
                                 </div>
                                 <div className='w-10 h-10 left-6 relative'>
-                                    <i className='fa fa-trash text-xl cursor-pointer absolute right-0 '
+                                    <i className='fa-solid fa-trash text-xl cursor-pointer absolute right-0 hover:text-red-500 hover:scale-110 transition'
                                         onClick={() => deleteUser(user._id)}
                                     ></i>
                                 </div>
@@ -147,12 +145,12 @@ function AdminDashboard() {
                 })}
 
 
+                    </div>
+                </div>
             </div>
 
             <ToastContainer />
-
-
-        </>
+        </SideNav>
     )
 }
 

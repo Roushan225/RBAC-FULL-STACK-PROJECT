@@ -1,3 +1,4 @@
+const Course = require("../models/course")
 const User =require("../models/user")
 const express =require('express')
 
@@ -33,3 +34,21 @@ module.exports.deleteUser=async (req,res)=>{
     }
 }
 
+module.exports.course= async(req,res)=>{
+    const {title,description}=req.body;
+    try {
+        const course =new Course({
+            title,
+            description,
+                                         // from generated token
+        })
+        await course.save();
+        res.status(200).json({
+            message:"Couse added Succesfully"
+        })
+    } catch (error) {
+        res.status(500).json({
+            message:error.message
+        });
+    }
+}

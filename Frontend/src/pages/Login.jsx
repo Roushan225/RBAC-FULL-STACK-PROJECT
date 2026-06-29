@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
-import Pagedesign from '../Components/SideNav'
+import Pagedesign from '../Components/shared/SideNav'
 import { useState } from 'react'
 
 import axios from 'axios'
@@ -37,13 +37,13 @@ function login() {
       const result = response.data;
       const { success, message, user} = result
       if (success) {
-        if (user.role === "Student") {
+        if (user === "Student") {
           handleSuccess(message)
           setTimeout(() => {
             navigate("/userdashboard")
           },1500)
         }
-        else if(user.role==="Professor"){
+        else if(user === "Professor"){
           handleSuccess(message)
           setTimeout(() => {
             navigate("/professordashboard")
@@ -97,8 +97,13 @@ function login() {
     }
 
   return (
-    <>
-      <Pagedesign />
+    <Pagedesign
+      title="Auth Panel"
+      links={[
+        { label: 'Login', path: '/login', icon: 'fa-solid fa-right-to-bracket' },
+        { label: 'Register', path: '/register', icon: 'fa-solid fa-graduation-cap' }
+      ]}
+    >
       <button onClick={()=>Email()} >
         email
       </button>
@@ -175,7 +180,7 @@ function login() {
         <ToastContainer />
       </div>
 
-    </>
+    </Pagedesign>
   )
 }
 

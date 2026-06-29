@@ -1,9 +1,10 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { ToastContainer } from 'react-toastify'
-import { handleError, handleSuccess } from '../../utilities'
+import { handleError, handleSuccess } from '../../../utilities'
 import { useNavigate } from 'react-router-dom'
-import ShowCalendar from './showCalendar'
+import SideNav from '../shared/SideNav'
+import ShowCalendar from '../shared/ShowCalendar'
 
 function UserDashboard() {
     const [file, setFile] = useState("")
@@ -111,8 +112,15 @@ function UserDashboard() {
     }
 
     return (
-        <>
-
+        <SideNav
+            title="Student Panel"
+            userName={user?.name || 'Student'}
+            onLogout={handleLogout}
+            links={[
+                { label: 'Dashboard', path: '/userdashboard', icon: 'fa-solid fa-home' },
+                { label: 'Calendar', path: '/calendar', icon: 'fa-solid fa-calendar-alt' }
+            ]}
+        >
             <div className='h-[100vh] bg-slate-200  '>
                 <div className='h-[10vh] w-[89.4%] rounded-xl bg-white shadow-md flex justify-between items-center'>
                     <div className='flex flex-col ml-16'>
@@ -271,9 +279,7 @@ function UserDashboard() {
             </div>
 
             <ToastContainer />
-
-
-        </>
+        </SideNav>
     )
 }
 

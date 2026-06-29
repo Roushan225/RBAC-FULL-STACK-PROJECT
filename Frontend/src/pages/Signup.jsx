@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
-import Pagedesign from '../Components/SideNav'
+import Pagedesign from '../Components/shared/SideNav'
 import { useState } from 'react'
 import login from './Login'
 import axios from 'axios'
@@ -102,8 +102,13 @@ function Signup() {
   }
 
   return (
-    <>
-      <Pagedesign />
+    <Pagedesign
+      title="Auth Panel"
+      links={[
+        { label: 'Login', path: '/login', icon: 'fa-solid fa-right-to-bracket' },
+        { label: 'Register', path: '/register', icon: 'fa-solid fa-graduation-cap' }
+      ]}
+    >
       <div className='absolute ml-[20%] top-[12%] shadow-xl rounded-lg '>
         <div className=' h-[75vh] w-[76vw]'>
           <div className='absolute w-[48%] h-[100%] left-0 '>
@@ -262,7 +267,7 @@ function Signup() {
 
         <ToastContainer />
       </div>
-    </>
+    </Pagedesign>
   )
 }
 
