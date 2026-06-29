@@ -121,161 +121,190 @@ function UserDashboard() {
                 { label: 'Calendar', path: '/calendar', icon: 'fa-solid fa-calendar-alt' }
             ]}
         >
-            <div className='h-[100vh] bg-slate-200  '>
-                <div className='h-[10vh] w-[89.4%] rounded-xl bg-white shadow-md flex justify-between items-center'>
-                    <div className='flex flex-col ml-16'>
-                        <h1
-                            className='text-4xl ml-5 p-3'
-                        >Welcome    <span className='text-green-500'>{user?.name}. . .</span></h1>
-                        <h1 className='text-xl ml-10 relative bottom-3'>
-                            {user?.email}
-                        </h1>
-                        <h2 className='text-md ml-10 relative bottom-3'>
-                            {user?.branch}
-                        </h2>
-
-                    </div>
-                    <button
-                        className=' h-20 rounded-xl absolute text-xl right-1  w-36 bg-white shadow-lg  items-center  hover:bg-red-500 hover:text-white transition duration-[.5s] '
-                        onClick={(e) => handleLogout(e)}>
-                        <i className='fa-solid fa-arrow-right-from-bracket'></i>
-                        logout
-                    </button>
-
-                    <div className='h-16 w-16 absolute object-cover left-6 rounded-full'>
-                        {profilepic.filter((pic) => pic.uploadedby === user.name).map((pic) => {
-                            return (
-                                <>
-                                    <img src={pic.filepath} className='rounded-full h-16 w-16' />
-                                </>
-                            )
-                        })}
-
-
+            <div className='space-y-6'>
+                <div className='rounded-3xl bg-gradient-to-r from-slate-900 via-emerald-900 to-teal-900 p-6 text-white shadow-xl'>
+                    <div className='flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between'>
+                        <div className='flex items-center gap-4'>
+                            <div className='flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl bg-white/10'>
+                                {profilepic.filter((pic) => pic.uploadedby === user?.name).slice(0, 1).map((pic) => (
+                                    <img key={pic._id} src={pic.filepath} alt={user?.name} className='h-full w-full object-cover' />
+                                ))}
+                                {!profilepic.some((pic) => pic.uploadedby === user?.name) && (
+                                    <i className='fa-solid fa-user text-2xl text-slate-200'></i>
+                                )}
+                            </div>
+                            <div>
+                                <p className='text-sm uppercase tracking-[0.3em] text-emerald-200'>Welcome back</p>
+                                <h1 className='text-3xl font-semibold'>{user?.name || 'Student'}</h1>
+                                <p className='mt-1 text-sm text-slate-300'>{user?.email}</p>
+                                <p className='text-sm text-slate-300'>{user?.branch}</p>
+                            </div>
+                        </div>
+                        <button
+                            onClick={() => handleLogout()}
+                            className='rounded-2xl border border-white/20 bg-white/10 px-4 py-3 text-sm font-medium text-white transition hover:bg-red-500 hover:text-white'
+                        >
+                            <i className='fa-solid fa-arrow-right-from-bracket mr-2'></i>
+                            Logout
+                        </button>
                     </div>
                 </div>
 
-
-
-                <form
-                    className='flex flex-col left-[38vw] shadow-lg top-[45.8vh] justify-around bg-white absolute rounded-lg  h-[30vh] w-[29vw] items-center '
-                    onSubmit={(e) => submitfile(e)}
-                >
-                    <h1 className='text-2xl'>
-                        Upload Assignment
-                    </h1>
-                    <input type="text"
-                        onChange={(e) => setPdfname(e.target.value)} value={pdfname}
-                        className='  mx-2 w-72 border-2 border-black rounded-lg p-2'
-                        placeholder='Assignment name . . .'
-                    />
-                    <input
-                        type="file"
-                        className='  mx-2 w-72 border-2 border-black rounded-lg p-1'
-                        accept='application/pdf'
-                        required
-                        onChange={(e) => setFile(e.target.files[0])}
-                    />
-                    <button className='p-2 bg-green-200 px-4 rounded-lg shadow-md hover:scale-105 hover:bg-green-500 hover:shadow-lg transition duration-[.5s] hover:opacity-80'>
-                        Upload
-                    </button>
-                </form>
-                <div className='flex grid-rows-4 left-[38vw] shadow-xl top-28 gap-2 flex-wrap bg-white absolute rounded-lg  h-[30vh] w-[60vw] items-start '>
-                    {viewpdf.filter((pdf) => pdf.uploadedby === user?.name).map((pdf) => {
-                        return (
-                            <>
-
-                                <div className='h-[12vh] w-[15vw] mt-2 relative border  ml-2 shadow-xl  rounded-lg text-center '>
-                                    <h1 className='h-16 w-[20vw]   absolute left-[20vw] font-semibold text-xl '>
-                                        preview Assignment
-                                    </h1>
-                                    <div className='absolute bottom-3 w-[50%] h-[100%]  left-0'>
-                                        <img src="./images/pdfimage1.png"
-                                            className='hover:scale-105 transition duration-[0.3s] cursor-default'
-                                        />
-                                        <h1 className='relative bottom-4'>
-                                            {pdf.pdfname}
-                                        </h1>
-                                    </div>
-
-                                    <div className=' absolute right-0 w-[60%] h-[100%] top-10 '>
-                                        <a href={`http://localhost:3001/${pdf.filepath}`}
-                                            target='_blank'
-                                            className='text-lg  bg-green-200 border-2  hover:bg-green-500 hover:scale-110 transition  p-2 rounded-lg hover:opacity-80  '
-                                        >view pdf
-                                        </a>
-
-                                    </div>
-
-
-
+                <div className='grid gap-6 xl:grid-cols-[1.2fr_0.8fr]'>
+                    <div className='space-y-6'>
+                        <div className='rounded-3xl border border-slate-200 bg-white p-6 shadow-sm'>
+                            <div className='mb-5 flex items-center justify-between'>
+                                <div>
+                                    <h2 className='text-xl font-semibold text-slate-800'>Upload assignment</h2>
+                                    <p className='text-sm text-slate-500'>Share your completed work as a PDF.</p>
                                 </div>
-                            </>
-                        )
-
-                    })}
-                </div>
-                <div className='flex flex-col right-8 shadow-lg top-[45.7vh] justify-around bg-white   absolute rounded-lg  h-[30vh] w-[30vw] items-center '>
-                    <h1 className='absolute top-5 text-2xl'>
-                        Attendance
-                    </h1>
-                    <h1 className='text-xl absolute left-5 top-20 '>
-                        Present :   <span>{user?.present}</span>
-                    </h1>
-                    <h1 className='text-xl absolute left-5 top-28 '>
-                        Absent :   <span>{user?.totalclasses - user?.present}</span>
-                    </h1>
-                    <h1 className='text-xl absolute left-5 top-36  '>
-                        Total Classes :  <span>{user?.totalclasses}</span>
-                    </h1>
-                    <h1 className='text-xl absolute left-5 top-52  '>
-                        Attendance Percent :   <span>{(user?.present / user?.totalclasses * 100).toFixed(1)} %</span>
-                    </h1>
-                </div>
-                <div className='flex grid-rows-4 left-[38vw] shadow-xl top-[78vh] gap-2 flex-wrap bg-white absolute rounded-lg  h-[20vh] w-[60vw] items-start '>
-                    <h1 className='h-5  absolute left-[40%] font-semibold text-xl top-2'>
-                        Professor Assignment
-                    </h1>
-                    {viewpdf.filter((pdf) => pdf.role === "Professor").map((pdf) => {
-                        return (
-                            <>
-                                <div className='h-[14vh] w-[15vw] mt-2 top-5 relative border  ml-2 shadow-xl  rounded-lg text-center '>
-
-                                    <div className='absolute bottom-3 w-[50%] h-[100%]  left-0'>
-                                        <img src="./images/pdfimage1.png"
-                                            className='hover:scale-105 transition duration-[0.3s] cursor-default'
-                                        />
-                                        <h1 className='relative bottom-4'>
-                                            {pdf.pdfname}
-                                        </h1>
-                                    </div>
-
-                                    <div className=' absolute right-0 w-[60%] h-[100%] top-5 '>
-                                        <a href={`http://localhost:3001/${pdf.filepath}`}
-                                            target='_blank'
-                                            className='text-lg  bg-green-200 border-2 hover:scale-110  border-green-400 p-2 rounded-lg hover:opacity-80  '
-                                        >view pdf
-                                        </a>
-                                        <h3 className='mt-2'>
-                                            Uploaded by : {pdf.uploadedby} Sir
-                                        </h3>
-
-                                    </div>
-
-
-
+                                <div className='rounded-full bg-emerald-50 p-3 text-emerald-600'>
+                                    <i className='fa-solid fa-file-arrow-up'></i>
                                 </div>
-                            </>
-                        )
+                            </div>
 
-                    })}
+                            <form className='space-y-4' onSubmit={(e) => submitfile(e)}>
+                                <input
+                                    type='text'
+                                    onChange={(e) => setPdfname(e.target.value)}
+                                    value={pdfname}
+                                    className='w-full rounded-xl border border-slate-300 p-3 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100'
+                                    placeholder='Assignment name . . .'
+                                />
+                                <input
+                                    type='file'
+                                    className='w-full rounded-xl border border-slate-300 p-3 text-sm file:mr-4 file:rounded-full file:border-0 file:bg-emerald-50 file:px-3 file:py-2 file:text-sm file:font-medium file:text-emerald-700 hover:file:bg-emerald-100'
+                                    accept='application/pdf'
+                                    required
+                                    onChange={(e) => setFile(e.target.files[0])}
+                                />
+                                <button className='w-full rounded-xl bg-emerald-600 px-4 py-3 font-medium text-white transition hover:bg-emerald-700'>
+                                    <i className='fa-solid fa-paper-plane mr-2'></i>
+                                    Upload assignment
+                                </button>
+                            </form>
+                        </div>
+
+                        <div className='rounded-3xl border border-slate-200 bg-white p-6 shadow-sm'>
+                            <div className='mb-5 flex items-center justify-between'>
+                                <div>
+                                    <h2 className='text-xl font-semibold text-slate-800'>Your submissions</h2>
+                                    <p className='text-sm text-slate-500'>Quick access to your uploaded assignments.</p>
+                                </div>
+                                <div className='rounded-full bg-slate-100 p-3 text-slate-600'>
+                                    <i className='fa-solid fa-folder-open'></i>
+                                </div>
+                            </div>
+
+                            <div className='grid gap-3 md:grid-cols-2'>
+                                {viewpdf.filter((pdf) => pdf.uploadedby === user?.name).length === 0 ? (
+                                    <div className='rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center text-sm text-slate-500 md:col-span-2'>
+                                        No assignments uploaded yet.
+                                    </div>
+                                ) : (
+                                    viewpdf.filter((pdf) => pdf.uploadedby === user?.name).map((pdf) => (
+                                        <div key={pdf._id} className='rounded-2xl border border-slate-200 bg-slate-50 p-4'>
+                                            <div className='flex items-start justify-between gap-3'>
+                                                <div>
+                                                    <h3 className='font-semibold text-slate-800'>{pdf.pdfname}</h3>
+                                                    <p className='mt-1 text-sm text-slate-500'>Your submission</p>
+                                                </div>
+                                                <a
+                                                    href={`http://localhost:3001/${pdf.filepath}`}
+                                                    target='_blank'
+                                                    rel='noreferrer'
+                                                    className='rounded-full bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-700 transition hover:bg-emerald-600 hover:text-white'
+                                                >
+                                                    <i className='fa-solid fa-arrow-up-right-from-square mr-2'></i>
+                                                    View
+                                                </a>
+                                            </div>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className='space-y-6'>
+                        <div className='rounded-3xl border border-slate-200 bg-white p-6 shadow-sm'>
+                            <div className='mb-5 flex items-center justify-between'>
+                                <div>
+                                    <h2 className='text-xl font-semibold text-slate-800'>Attendance</h2>
+                                    <p className='text-sm text-slate-500'>Track your current progress.</p>
+                                </div>
+                                <div className='rounded-full bg-blue-50 p-3 text-blue-600'>
+                                    <i className='fa-solid fa-chart-line'></i>
+                                </div>
+                            </div>
+
+                            <div className='space-y-3 text-sm text-slate-600'>
+                                <div className='flex items-center justify-between rounded-2xl bg-slate-50 px-4 py-3'>
+                                    <span>Present</span>
+                                    <span className='font-semibold text-emerald-600'>{user?.present || 0}</span>
+                                </div>
+                                <div className='flex items-center justify-between rounded-2xl bg-slate-50 px-4 py-3'>
+                                    <span>Absent</span>
+                                    <span className='font-semibold text-rose-600'>{(user?.totalclasses || 0) - (user?.present || 0)}</span>
+                                </div>
+                                <div className='flex items-center justify-between rounded-2xl bg-slate-50 px-4 py-3'>
+                                    <span>Total classes</span>
+                                    <span className='font-semibold text-slate-800'>{user?.totalclasses || 0}</span>
+                                </div>
+                                <div className='flex items-center justify-between rounded-2xl bg-slate-50 px-4 py-3'>
+                                    <span>Attendance %</span>
+                                    <span className='font-semibold text-blue-600'>
+                                        {user?.totalclasses ? ((user.present / user.totalclasses) * 100).toFixed(1) : '0.0'}%
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className='rounded-3xl border border-slate-200 bg-white p-6 shadow-sm'>
+                            <div className='mb-5 flex items-center justify-between'>
+                                <div>
+                                    <h2 className='text-xl font-semibold text-slate-800'>Professor assignments</h2>
+                                    <p className='text-sm text-slate-500'>Shared resources from your instructors.</p>
+                                </div>
+                                <div className='rounded-full bg-amber-50 p-3 text-amber-600'>
+                                    <i className='fa-solid fa-book-open'></i>
+                                </div>
+                            </div>
+
+                            <div className='space-y-3'>
+                                {viewpdf.filter((pdf) => pdf.role === 'Professor').length === 0 ? (
+                                    <div className='rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center text-sm text-slate-500'>
+                                        No professor assignments yet.
+                                    </div>
+                                ) : (
+                                    viewpdf.filter((pdf) => pdf.role === 'Professor').map((pdf) => (
+                                        <div key={pdf._id} className='rounded-2xl border border-slate-200 bg-slate-50 p-4'>
+                                            <div className='flex items-start justify-between gap-3'>
+                                                <div>
+                                                    <h3 className='font-semibold text-slate-800'>{pdf.pdfname}</h3>
+                                                    <p className='mt-1 text-sm text-slate-500'>By {pdf.uploadedby}</p>
+                                                </div>
+                                                <a
+                                                    href={`http://localhost:3001/${pdf.filepath}`}
+                                                    target='_blank'
+                                                    rel='noreferrer'
+                                                    className='rounded-full bg-amber-50 px-3 py-2 text-sm font-medium text-amber-700 transition hover:bg-amber-600 hover:text-white'
+                                                >
+                                                    <i className='fa-solid fa-arrow-up-right-from-square mr-2'></i>
+                                                    View
+                                                </a>
+                                            </div>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div className='abolute '>
+                <div className='rounded-3xl border border-slate-200 bg-white p-6 shadow-sm'>
                     <ShowCalendar />
                 </div>
-
-
             </div>
 
             <ToastContainer />
