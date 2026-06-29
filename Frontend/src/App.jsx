@@ -8,6 +8,8 @@ import ProfessorDashboard from "./Components/professor/ProfessorDashboard"
 import AdminDashboard from "./Components/admin/AdminDashboard";
 import Resetpassword from "./Components/shared/Resetpassword";
 import UserDashboard from "./Components/user/UserDashboard";
+import UserAssignments from "./Components/user/UserAssignments";
+import UserAttendance from "./Components/user/UserAttendance";
 import Professorpdf from "./Components/professor/Professorpdf"
 import Calendar from "./Components/shared/Calendar";
 import AdminLoginLogs from "./Components/admin/AdminLoginLog";
@@ -25,6 +27,8 @@ function App() {
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/reset" element={<Resetpassword />} />
           <Route path="/userdashboard" element={<UserDashboard />} />
+          <Route path="/userassignments" element={<UserAssignments />} />
+          <Route path="/userattendance" element={<UserAttendance />} />
           <Route path="/Professorpdf" element={<Professorpdf />} />
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/loginlog" element={<AdminLoginLogs />} />

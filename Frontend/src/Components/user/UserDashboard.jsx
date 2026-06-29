@@ -117,7 +117,9 @@ function UserDashboard() {
             userName={user?.name || 'Student'}
             onLogout={handleLogout}
             links={[
-                { label: 'Dashboard', path: '/userdashboard', icon: 'fa-solid fa-home' },
+                { label: 'Overview', path: '/userdashboard', icon: 'fa-solid fa-home' },
+                { label: 'Assignments', path: '/userassignments', icon: 'fa-solid fa-file-lines' },
+                { label: 'Attendance', path: '/userattendance', icon: 'fa-solid fa-chart-line' },
                 { label: 'Calendar', path: '/calendar', icon: 'fa-solid fa-calendar-alt' }
             ]}
         >
